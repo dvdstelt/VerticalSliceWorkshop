@@ -31,8 +31,6 @@ If you have any difficulty preparing your machine or following this document, pl
   As this is a distributed system, there are 11 projects to run simultaneously in some exercises.
 - [FAQ](#faq)
 
-## Demos
-
 ## FAQ
 
 If the answer to your question is not listed here, consult your on-site trainer.
@@ -62,7 +60,7 @@ Sometimes there are issues in the API. Because of the CompositionGateway it migh
   - Divergent.Finance.API
   - Divergent.Customers.API
   - Divergent.CompositionGateway
-- Verify if the response is correct using [Postman](https://www.postman.com/downloads/) be sending HTTP requests to the following uri:
+- Verify if the response is correct using any browser by sending HTTP requests to the following uri:
   - http://localhost:20185/api/orders/ for sales
   - http://localhost:20187/api/prices/orders/total?orderIds=1 for finance
   - http://localhost:20186/api/customers/byorders?orderIds=1 for customers
