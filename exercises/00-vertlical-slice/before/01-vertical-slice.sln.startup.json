@@ -1,0 +1,12 @@
+{
+    "Version": 3,
+    "ListAllProjects": true,
+    "MultiProjectConfigurations": {
+        "Exercise": {
+            "Projects": {
+                "Divergent.Api": {},
+                "Divergent.Frontend": {}
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<license type="Production" Quantity="15" Tier="Basic" Edition="Basic" Applications="All" RenewalType="Subscription" expiration="2025-06-30" Notes="License generated for the workshop at DotNetDays Romania" id="ee1b9a0f-8f6d-4506-8132-412448446ba8">
+  <name>Dennis van der Stelt</name>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>Jp5GtxE9/sg9t/g+tQm3gaeZlZg=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>JURzqPm6oXkVum9IStGq7QzzMaHVwSHQ4sQTf3i7ThkWtPRb3W35xGf8+yQHyooWO1heg/+K26jv1s3lUSErLD/pPBMNS0WR50+ea10Kn8yJTnhG7+jUzT/WJbCFGwnCd/J81+N9hrHjZvTB+dIxmFGmjl62aOGbvY9Cs/T6BaM=</SignatureValue>
+  </Signature>
+</license>

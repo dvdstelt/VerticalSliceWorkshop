@@ -1,0 +1,33 @@
+<!-- orderDetails.html -->
+<div ng-controller="orderDetailsController as ctrl">
+    <h2>Order Details</h2>
+
+    <div ng-if="ctrl.isLoading" class="loading">
+        Loading order details...
+    </div>
+
+    <div ng-if="ctrl.error" class="alert alert-danger">
+        {{ctrl.error}}
+    </div>
+
+    <div ng-if="!ctrl.isLoading && !ctrl.error" class="order-details">
+        <div class="card">
+            <div class="card-header">
+                Order: #{{ctrl.order.orderId}}
+            </div>
+            <div class="card-body">
+                <h5>Customer: {{ctrl.order.customer.name}}</h5>
+
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="product in ctrl.order.products">
+                        <b>{{product.name}}</b> for ${{product.price}}
+                    </li>
+                </ul>
+
+                <!-- Add any additional order details -->
+            </div>
+        </div>
+
+        <a ui-sref="orders" class="btn btn-primary mt-3">Back to Orders</a>
+    </div>
+</div>

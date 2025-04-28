@@ -1,0 +1,29 @@
+﻿<section cg-busy="ctrl.isLoading">
+    Orders
+
+    <div>
+        <button ng-click="ctrl.refreshOrders()">Refresh</button>
+        <button ng-click="ctrl.createNewOrder()">Create new order</button>
+    </div>
+
+    <ul style="margin-top: 20px;">
+        <li data-ng-repeat="order in ctrl.orders track by order.orderId">
+            <a ui-sref="orderDetails({orderId: order.orderId})"><strong>Order: {{order.orderId}}</strong></a>
+            <div>
+                <i>Items count:</i> {{order.itemsCount}}
+                <br />
+                <strong>Customer:</strong> {{order.customer.name}}
+                <br />
+                <strong>Order total:</strong> $ {{order.totalPrice}}
+            </div>
+        </li>
+    </ul>
+
+    <div ng-show="ctrl.error" class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">Ooops</h3>
+        </div>
+        <div class="panel-body" style="white-space: pre-line;">{{ctrl.error}}</div>
+    </div>
+
+</section>
