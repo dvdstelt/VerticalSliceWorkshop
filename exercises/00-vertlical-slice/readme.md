@@ -230,6 +230,8 @@ In the `Features` folder, create a new subfolder called `Email`.
 
 Create a new class in this folder called `OrderCreatedHandler` and have it inherit the following interface: `INotificationHandler<OrderCreated>`.
 
+Also make sure there's a constructor where `DivergentDbContext` is injected and stored in the variable `db`, which is used in step 4.
+
 ### Step 4
 
 Since we only have the identifier of our order and nothing else, we need to retrieve all the data. This might seem counterintuitive, because we could provide all the data immediately from where we published the notification. We had everything already there.
