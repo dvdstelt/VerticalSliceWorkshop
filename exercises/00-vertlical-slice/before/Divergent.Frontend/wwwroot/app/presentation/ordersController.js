@@ -33,11 +33,6 @@
                         .then(function (createOrderResponse) {
                             $log.debug('raw order created:', createOrderResponse.data);
                             return createOrderResponse.data;
-                        })
-                        .catch(function (error) {
-                            $log.error('Failed to create order:', error);
-                            ctrl.error = 'Failed to create order: ' + error.data.title;
-                            throw error;
                         });
                 };
 
