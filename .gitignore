@@ -6,8 +6,6 @@ binaries
 *.vshost.*
 *.lock.json
 .nu
-.learningtransport
-.db
 .logs
 _UpgradeReport.*
 *.cache
@@ -58,8 +56,6 @@ installer/ServiceControl-cache
 *.sln.docstates
 .vs/
 
-DataBusShare
-
 # mac temp file ignore
 .DS_Store
 
@@ -86,10 +82,6 @@ bld/
 *.VisualState.xml
 TestResult.xml
 
-# NCrunch
-_NCrunch_*
-.*crunch*.local.xml
-
 # ReSharper is a .NET coding add-in
 _ReSharper*/
 *.[Rr]e[Ss]harper
@@ -101,8 +93,12 @@ src/scaffolding.config
 *.received.*
 
 # JetBrains Rider
-.idea/*
-!.idea/.run/
+**/.idea/
+!**/.run/*.run.xml
 *.sln.iml
 PromotedSqlScripts/
 /samples/servicecontrol/adapter-mixed-transports/SCTransportAdapter_2/.audit-db
+
+# NServiceBus & LiteDb
+.learningtransport
+.db
