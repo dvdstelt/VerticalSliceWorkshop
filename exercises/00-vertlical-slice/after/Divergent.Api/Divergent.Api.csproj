@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\shared-api-gateway\Shared\Shared.csproj" />
     <ProjectReference Include="..\Divergent.Data\Divergent.Data.csproj" />
   </ItemGroup>
 
