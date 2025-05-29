@@ -1,24 +1,33 @@
-﻿using Divergent.Data.Models;
-using LiteDB;
-
-namespace Divergent.Data.Migrations;
+﻿namespace Divergent.Data.Migrations;
 
 public static class DatabaseInitializer
 {
-    public static void Initialize(LiteDatabase context)
+    public static void Initialize(DivergentDbContext context)
     {
         if (context == null) throw new ArgumentNullException(nameof(context));
 
-        var customers = context.GetCollection<Customer>();
-        if (customers.Count() > 0)
-            return;
+        // Ensure database and tables are created
+        context.Database.EnsureCreated();
 
-        customers.InsertBulk(SeedData.Customers());
+        // Seed Customers
+        if (!context.Customers.Any())
+        {
+            context.Customers.AddRange(SeedData.Customers());
+        }
 
-        var orders = context.GetCollection<Order>();
-        orders.InsertBulk(SeedData.Orders());
+        // Seed Orders
+        if (!context.Orders.Any())
+        {
+            context.Orders.AddRange(SeedData.Orders());
+        }
 
-        var products = context.GetCollection<Product>();
-        products.InsertBulk(SeedData.Products());
+        // Seed Products
+        if (!context.Products.Any())
+        {
+            context.Products.AddRange(SeedData.Products());
+        }
+
+        context.SaveChanges();
     }
 }
+

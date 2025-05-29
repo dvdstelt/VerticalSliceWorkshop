@@ -36,6 +36,13 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
+// Ensure database is created and seeded
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<Divergent.Data.DivergentDbContext>();
+    Divergent.Data.Migrations.DatabaseInitializer.Initialize(dbContext);
+}
+
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
@@ -58,3 +65,4 @@ else
 app.MapControllers();
 
 app.Run();
+

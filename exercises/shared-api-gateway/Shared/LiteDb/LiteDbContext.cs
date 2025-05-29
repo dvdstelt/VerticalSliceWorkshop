@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Linq;
-using LiteDB;
+using Microsoft.EntityFrameworkCore;
 
 namespace Configuration.LiteDb;
 
-public class LiteDbContext : ILiteDbContext
+/*public class LiteDbContext : ILiteDbContext
 {
     public LiteDatabase Database { get; }
 
@@ -59,4 +59,38 @@ public class LiteDbContext : ILiteDbContext
     }
 
     const string DefaultDatabaseDirectory = ".db";
+}*/
+
+public class SqliteDbContext : DbContext
+{
+    public SqliteDbContext(DbContextOptions<SqliteDbContext> options) : base(options)
+    {
+        // Ensure database is created in the correct location
+        Database.EnsureCreated();
+    }
+
+    public static string GetDatabasePath(string databaseName)
+    {
+        var storagePath = FindStoragePath();
+        Directory.CreateDirectory(storagePath);
+        return Path.Combine(storagePath, databaseName.ToLower() + ".db");
+    }
+
+    static string FindStoragePath()
+    {
+        var directory = AppDomain.CurrentDomain.BaseDirectory;
+        while (true)
+        {
+            if (Directory.EnumerateFiles(directory).Any(file => file.EndsWith(".sln")))
+            {
+                return Path.Combine(directory, "db");
+            }
+            var parent = Directory.GetParent(directory);
+            if (parent == null)
+                throw new DirectoryNotFoundException("Solution folder not found.");
+            directory = parent.FullName;
+        }
+    }
 }
+
+

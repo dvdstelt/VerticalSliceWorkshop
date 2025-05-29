@@ -1,9 +1,7 @@
-﻿using Configuration;
-using Divergent.Data;
-using Divergent.Data.Models;
+﻿using Divergent.Data;
 using MediatR;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Divergent.Api.Features.Orders;
 
@@ -20,21 +18,25 @@ public class GetOrders(IMediator mediator) : Controller
 
 internal sealed class GetMyOrdersHandler(DivergentDbContext db) : IRequestHandler<GetOrdersQuery, IEnumerable<OrderViewModel>>
 {
-    public Task<IEnumerable<OrderViewModel>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<OrderViewModel>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
     {
         // Load orders
-        var orderCollection = db.Database.GetCollection<Order>();
-        var orders = orderCollection.Query().Limit(10).ToList();
+        var orders = await db.Orders
+            .OrderByDescending(o => o.DateTimeUtc)
+            .Take(10)
+            .ToListAsync(cancellationToken);
 
         // Load customers
         var customerIds = orders.Select(o => o.CustomerId).Distinct().ToArray();
-        var customerCollection = db.Database.GetCollection<Customer>();
-        var customers = customerCollection.Query().Where(c => customerIds.Contains(c.Id)).ToList();
+        var customers = await db.Customers
+            .Where(c => customerIds.Contains(c.Id))
+            .ToListAsync(cancellationToken);
 
         // Load products
         var productIds = orders.SelectMany(o => o.Items).Distinct().ToArray();
-        var productCollection = db.Database.GetCollection<Product>();
-        var products = productCollection.Query().Where(p => productIds.Contains(p.Id)).ToList();
+        var products = await db.Products
+            .Where(p => productIds.Contains(p.Id))
+            .ToListAsync(cancellationToken);
 
         // Map everything to ViewModels
         var orderViewModels = orders.Select(o => new OrderViewModel
@@ -49,7 +51,7 @@ internal sealed class GetMyOrdersHandler(DivergentDbContext db) : IRequestHandle
             TotalPrice = products.Where(p => o.Items.Contains(p.Id)).Sum(p => p.Price)
         });
 
-        return Task.FromResult(orderViewModels);
+        return orderViewModels;
     }
 }
 
@@ -78,3 +80,4 @@ public class ProductViewModel
     public string Name { get; set; }
     public decimal Price { get; set; }
 }
+

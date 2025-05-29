@@ -1,8 +1,8 @@
 ﻿using Divergent.Api.Features.Orders;
 using Divergent.Data;
-using Divergent.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Divergent.Api.Features.OrderDetails;
 
@@ -19,19 +19,18 @@ public class GetOrderDetails(IMediator mediator) : Controller
 
 internal sealed class GetOrderDetailsHandler(DivergentDbContext db) : IRequestHandler<GetOrderDetailsQuery, OrderViewModel>
 {
-    public Task<OrderViewModel> Handle(GetOrderDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<OrderViewModel> Handle(GetOrderDetailsQuery request, CancellationToken cancellationToken)
     {
         // Load order
-        var orderCollection = db.Database.GetCollection<Order>();
-        var order = orderCollection.Query().Where(o => o.Id == request.OrderId).FirstOrDefault();
+        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken);
+        if (order == null)
+            return null;
 
         // Load customer
-        var customerCollection = db.Database.GetCollection<Customer>();
-        var customer = customerCollection.Query().Where(c => c.Id == order.CustomerId).FirstOrDefault();
+        var customer = await db.Customers.FirstOrDefaultAsync(c => c.Id == order.CustomerId, cancellationToken);
 
         // Load products
-        var productCollection = db.Database.GetCollection<Product>();
-        var products = productCollection.Query().Where(p => order.Items.Contains(p.Id)).ToList();
+        var products = await db.Products.Where(p => order.Items.Contains(p.Id)).ToListAsync(cancellationToken);
 
         // Map to ViewModel
         var orderViewModel = new OrderViewModel
@@ -42,7 +41,7 @@ internal sealed class GetOrderDetailsHandler(DivergentDbContext db) : IRequestHa
             TotalPrice = products.Sum(p => p.Price)
         };
 
-        return Task.FromResult(orderViewModel);
+        return orderViewModel;
     }
 }
 
