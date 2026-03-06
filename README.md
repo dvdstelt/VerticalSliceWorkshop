@@ -19,7 +19,7 @@ Welcome to the workshop about vertical slices.
 - Optional: [LiteDb Studio](https://github.com/mbdavid/LiteDB.Studio) ([download](https://github.com/mbdavid/LiteDB.Studio/releases)) 
 - Optional: [smtp4dev](https://github.com/rnwood/smtp4dev)
 - [Claude Code batch file](https://github.com/dvdstelt/ai-agents/blob/main/cc.bap)
-- [DagTekst project description](https://github.com/dvdstelt/dagtekst/blob/main/doc/project.md)
+- [DagTekst working link](https://github.com/dvdstelt/dagtekst/blob/main/docs/project.md)
 
 ### Index
 
