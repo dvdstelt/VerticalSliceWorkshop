@@ -24,7 +24,3 @@ jobs:
       - uses: dvdstelt/hyperhawk@v1
         with:
           token: ${{ steps.app-token.outputs.token }}      
-
-      - uses: dvdstelt/hyperhawk@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
