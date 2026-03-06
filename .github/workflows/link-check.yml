@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write  # required to post review comments
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -20,7 +20,9 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      
+          owner: ${{ github.repository_owner }}
+
       - uses: dvdstelt/hyperhawk@v1
         with:
-          token: ${{ steps.app-token.outputs.token }}      
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cross-repo-token: ${{ steps.app-token.outputs.token }}
