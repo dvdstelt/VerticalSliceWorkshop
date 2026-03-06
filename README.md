@@ -3,7 +3,6 @@
 Welcome to the workshop about vertical slices.
 
 > [!important]
->
 > Please ensure you have prepared your machine well in advance of the workshop. Your time during the workshop is valuable, and we want to use it for learning, rather than setting up machines.
 
 ## Prerequisites
