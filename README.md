@@ -1,6 +1,6 @@
 # Vertical Slice workshop
 
-Welcome to the workshop about vertical slices and more...
+Welcome to the workshop about vertical slices.
 
 > [!important]
 >
