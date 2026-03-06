@@ -9,7 +9,7 @@ Welcome to the workshop about vertical slices.
 ## Prerequisites
 
 
-- /READM.md
+- [Readme](READM.md)
 - Windows
 - .NET 8 & .NET 9.0
 - A .NET IDE for the exercises
