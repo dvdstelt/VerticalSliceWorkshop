@@ -1,8 +1,8 @@
 ﻿using System.Net.Mail;
 using Divergent.Api.Domain;
 using Divergent.Data;
-using Divergent.Data.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Divergent.Api.Features.Email;
 
@@ -10,14 +10,13 @@ internal sealed class OrderCreatedHandler(DivergentDbContext db) : INotification
 {
     public async Task Handle(OrderCreated notification, CancellationToken cancellationToken)
     {
-        var orderCollection = db.Database.GetCollection<Order>();
-        var order = orderCollection.FindById(notification.OrderId);
+        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == notification.OrderId, cancellationToken);
+        if (order == null) return;
 
-        var customerCollection = db.Database.GetCollection<Customer>();
-        var customer = customerCollection.FindById(order.CustomerId);
+        var customer = await db.Customers.FirstOrDefaultAsync(c => c.Id == order.CustomerId, cancellationToken);
+        if (customer == null) return;
 
-        var productCollection = db.Database.GetCollection<Product>();
-        var products = productCollection.Query().Where(p => order.Items.Contains(p.Id)).ToList();
+        var products = await db.Products.Where(p => order.Items.Contains(p.Id)).ToListAsync(cancellationToken);
 
         var mailMessage = new MailMessage
         {
@@ -38,7 +37,9 @@ internal sealed class OrderCreatedHandler(DivergentDbContext db) : INotification
                 Divergent Team
                 """
         };
+
         var smtpClient = new SmtpClient("localhost", 25);
         await smtpClient.SendMailAsync(mailMessage, cancellationToken);
     }
 }
+

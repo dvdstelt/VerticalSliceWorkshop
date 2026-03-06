@@ -36,9 +36,9 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 {
     public CreateOrderCommandValidator()
     {
-        RuleFor(x => x.CustomerId).GreaterThan(100);
+        RuleFor(x => x.CustomerId).GreaterThan(0);
         RuleFor(x => x.Products).NotEmpty();
-        RuleForEach(x => x.Products).GreaterThan(100);
+        RuleForEach(x => x.Products).GreaterThan(0);
         RuleFor(x => x.Products).Must(x => x.Distinct().Count() == x.Count);
     }
 }
@@ -53,8 +53,8 @@ internal sealed class CreateOrderHandler(DivergentDbContext db, IPublisher publi
             Items = request.Products
         };
 
-        var orderCollection = db.Database.GetCollection<Order>();
-        order.Id = orderCollection.Insert(order);
+        db.Orders.Add(order);
+        await db.SaveChangesAsync(cancellationToken);
 
         await publisher.Publish(new OrderCreated(order.Id), cancellationToken);
 
